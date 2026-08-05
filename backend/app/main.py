@@ -8,6 +8,7 @@ from fastapi.responses import JSONResponse
 
 from app.api.auth import router as auth_router
 from app.api.dashboard import router as dashboard_router
+from app.api.files import router as files_router
 from app.api.health import router as health_router
 from app.api.users import router as users_router
 from app.core.config import settings
@@ -35,6 +36,7 @@ app.include_router(health_router, prefix=settings.API_PREFIX)
 app.include_router(auth_router, prefix=settings.API_PREFIX)
 app.include_router(users_router, prefix=settings.API_PREFIX)
 app.include_router(dashboard_router, prefix=settings.API_PREFIX)
+app.include_router(files_router, prefix=settings.API_PREFIX)
 
 
 @app.exception_handler(AppException)
