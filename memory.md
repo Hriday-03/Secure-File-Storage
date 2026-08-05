@@ -30,5 +30,24 @@ Progress tracker for the Secure File Storage System development.
 - Local Python in venv is 3.11.9 (docs recommend 3.12+; works fine)
 - `SECRET_KEY` in `.env` is a dev placeholder — must be changed for production
 
-## Next: Phase 2 — Database Design
-In progress when present.
+## Phase 2 — Database Design: COMPLETE
+- SQLAlchemy 2.0 + UUID (native PG / CHAR(32) SQLite)
+- `users` (name, email, password_hash, public_key, encrypted_private_key, is_active, timestamps)
+- `files` (original_name, stored_name, encrypted_key, algorithm, size, mime_type, timestamps)
+- Alembic wired to app settings; migrations `2e3060ed59f1` + `a39bc03b736b` applied
+- Dev DB: SQLite (`secure_storage.db`); PostgreSQL-ready via DATABASE_URL
+
+## Phase 3 — Authentication System: COMPLETE
+- bcrypt hashing (direct `bcrypt` lib; passlib 1.7.4 is incompatible with bcrypt 4.x)
+- JWT access tokens (python-jose, HS256, 30 min expiry)
+- Registration generates RSA-2048 keypair; private key encrypted at rest with master key (HKDF from SECRET_KEY) — AES-256-GCM
+- Endpoints: POST /api/auth/register|login|logout, GET /api/auth/me — all verified via API
+- Frontend: Login/Register pages, AuthContext (useReducer), ProtectedRoute, axios interceptors, localStorage session persistence
+
+## Phase 4 — User Dashboard: COMPLETE
+- GET /api/users/profile, GET /api/dashboard/stats (verified)
+- AppLayout (Navbar + Sidebar), UserMenu, responsive (mobile drawer)
+- Dashboard: welcome, 4 stat cards, empty state
+- Placeholder pages: Upload, My Files, Recent, Profile
+
+## Next: Phase 5 — Cryptography Module

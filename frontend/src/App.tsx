@@ -1,20 +1,38 @@
-import { BrowserRouter, Route, Routes } from 'react-router'
-
-function Home() {
-  return (
-    <main className="flex min-h-screen flex-col items-center justify-center gap-4">
-      <h1 className="text-3xl font-bold text-slate-100">Secure File Storage</h1>
-      <p className="text-slate-400">Phase 1 — project setup complete.</p>
-    </main>
-  )
-}
+import { BrowserRouter, Navigate, Route, Routes } from 'react-router'
+import { AuthProvider } from '@/context/AuthContext'
+import ProtectedRoute from '@/components/ProtectedRoute'
+import AppLayout from '@/components/AppLayout'
+import Login from '@/pages/Login'
+import Register from '@/pages/Register'
+import Dashboard from '@/pages/Dashboard'
+import UploadPage from '@/pages/UploadPage'
+import FilesPage from '@/pages/FilesPage'
+import RecentPage from '@/pages/RecentPage'
+import ProfilePage from '@/pages/ProfilePage'
 
 function App() {
   return (
     <BrowserRouter>
-      <Routes>
-        <Route path="/" element={<Home />} />
-      </Routes>
+      <AuthProvider>
+        <Routes>
+          <Route path="/login" element={<Login />} />
+          <Route path="/register" element={<Register />} />
+          <Route
+            element={
+              <ProtectedRoute>
+                <AppLayout />
+              </ProtectedRoute>
+            }
+          >
+            <Route path="/" element={<Dashboard />} />
+            <Route path="/upload" element={<UploadPage />} />
+            <Route path="/files" element={<FilesPage />} />
+            <Route path="/recent" element={<RecentPage />} />
+            <Route path="/profile" element={<ProfilePage />} />
+          </Route>
+          <Route path="*" element={<Navigate to="/" replace />} />
+        </Routes>
+      </AuthProvider>
     </BrowserRouter>
   )
 }
