@@ -75,4 +75,15 @@ Progress tracker for the Secure File Storage System development.
 - Frontend: delete-confirm modal + rename modal
 - Full lifecycle verified: upload→encrypt→list→search→download (byte-identical)→rename→delete
 
-## Next: Phase 11 — User Profile
+## Phase 11 — User Profile: COMPLETE
+- PUT /api/users/profile (name update), POST /api/users/change-password (verify current, enforce different)
+- Frontend ProfilePage: edit name, change password form, toasts, AuthContext.updateUser
+- Verified: wrong-current → 401, same password → 422, valid change → login works with new password
+
+## Phase 12 — Security Hardening: COMPLETE
+- Security headers: X-Content-Type-Options, X-Frame-Options, Referrer-Policy, Permissions-Policy, CSP, HSTS (HTTPS only)
+- Rate limiting: per-IP sliding window, 10/min auth endpoints (login/register/change-password), 120/min general, 429 + Retry-After
+- Audit logging middleware: method/path/status/duration/user_id/client per request
+- Verified: headers present, 10 allowed then 429 with envelope
+
+## Next: Phase 13 — Error Handling

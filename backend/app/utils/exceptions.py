@@ -83,3 +83,9 @@ class DecryptionError(AppException):
     status_code = 500
     code = "DECRYPTION_ERROR"
     message = "Failed to decrypt the file."
+
+
+class RateLimitExceededError(AppException):
+    status_code = 429
+    code = "RATE_LIMIT_EXCEEDED"
+    message = "Too many requests. Please try again later."

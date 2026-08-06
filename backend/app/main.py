@@ -13,6 +13,9 @@ from app.api.health import router as health_router
 from app.api.users import router as users_router
 from app.core.config import settings
 from app.core.logging import setup_logging
+from app.middleware.audit_log import AuditLogMiddleware
+from app.middleware.rate_limit_middleware import RateLimitMiddleware
+from app.middleware.security_headers import SecurityHeadersMiddleware
 from app.utils.exceptions import AppException
 
 setup_logging()
@@ -24,6 +27,9 @@ app = FastAPI(
     debug=settings.DEBUG,
 )
 
+app.add_middleware(SecurityHeadersMiddleware)
+app.add_middleware(RateLimitMiddleware)
+app.add_middleware(AuditLogMiddleware)
 app.add_middleware(
     CORSMiddleware,
     allow_origins=settings.cors_origin_list,
