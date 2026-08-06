@@ -50,4 +50,29 @@ Progress tracker for the Secure File Storage System development.
 - Dashboard: welcome, 4 stat cards, empty state
 - Placeholder pages: Upload, My Files, Recent, Profile
 
-## Next: Phase 5 — Cryptography Module
+## Phase 5 — Cryptography Module: COMPLETE
+- AES-256-GCM: whole-data + chunked streaming (1 MiB chunks, nonce+len framed)
+- RSA-2048 OAEP-SHA256 key pairs; master-key-encrypted private keys (HKDF from SECRET_KEY)
+- 16 unit tests passing (`backend/tests/test_crypto.py`)
+
+## Phase 6 — File Upload: COMPLETE
+- POST /api/files/upload: sanitize filename, extension allowlist, size limit (100 MB), streaming AES encrypt
+- Frontend: drag-drop + browse, per-file progress bars, success/error states, query invalidation
+
+## Phase 7 — File Storage Management: COMPLETE
+- StorageService (local disk, traversal-safe), encrypted blobs `.enc`, metadata persistence
+
+## Phase 8 — File Listing: COMPLETE
+- GET /api/files: pagination, search (ilike), sort (name/size/date, asc/desc)
+- Frontend FilesPage: debounced search, sortable headers, pagination, skeleton loaders
+
+## Phase 9 — Download & Decryption: COMPLETE
+- GET /api/files/{id}/download: ownership check, RSA key recovery, AES decrypt, StreamingResponse
+- Frontend: axios blob download with filename from Content-Disposition
+
+## Phase 10 — File Management: COMPLETE
+- DELETE /api/files/{id} (blob + metadata), PUT /api/files/{id}/rename
+- Frontend: delete-confirm modal + rename modal
+- Full lifecycle verified: upload→encrypt→list→search→download (byte-identical)→rename→delete
+
+## Next: Phase 11 — User Profile
