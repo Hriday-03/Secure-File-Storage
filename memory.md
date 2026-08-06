@@ -86,4 +86,9 @@ Progress tracker for the Secure File Storage System development.
 - Audit logging middleware: method/path/status/duration/user_id/client per request
 - Verified: headers present, 10 allowed then 429 with envelope
 
-## Next: Phase 13 — Error Handling
+## Phase 13 — Error Handling: COMPLETE
+- Frontend ErrorBoundary (class component, reset/reload actions) wrapping the whole app
+- 404 NotFoundPage within protected layout (unknown paths show styled 404, not silent redirect)
+- Existing backend envelopes already structured; catch-all handler never leaks internals
+
+## Next: Phase 14 — Testing

@@ -1,4 +1,4 @@
-import { BrowserRouter, Navigate, Route, Routes } from 'react-router'
+import { BrowserRouter, Route, Routes } from 'react-router'
 import { AuthProvider } from '@/context/AuthContext'
 import ProtectedRoute from '@/components/ProtectedRoute'
 import AppLayout from '@/components/AppLayout'
@@ -9,6 +9,7 @@ import UploadPage from '@/pages/UploadPage'
 import FilesPage from '@/pages/FilesPage'
 import RecentPage from '@/pages/RecentPage'
 import ProfilePage from '@/pages/ProfilePage'
+import NotFoundPage from '@/pages/NotFoundPage'
 
 function App() {
   return (
@@ -29,8 +30,8 @@ function App() {
             <Route path="/files" element={<FilesPage />} />
             <Route path="/recent" element={<RecentPage />} />
             <Route path="/profile" element={<ProfilePage />} />
+            <Route path="*" element={<NotFoundPage />} />
           </Route>
-          <Route path="*" element={<Navigate to="/" replace />} />
         </Routes>
       </AuthProvider>
     </BrowserRouter>
