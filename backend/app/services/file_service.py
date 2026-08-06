@@ -5,7 +5,7 @@ import re
 import uuid
 from pathlib import Path
 
-from sqlalchemy import select
+from sqlalchemy import func, select
 from sqlalchemy.orm import Session
 
 from app.core.config import settings
@@ -142,7 +142,7 @@ def list_user_files(
 ) -> tuple[list[File], int]:
     """Return a paginated, sorted list of the user's files and the total count."""
     stmt = select(File).where(File.user_id == user.id)
-    count_stmt = select(File.id).where(File.user_id == user.id)
+    count_stmt = select(func.count(File.id)).where(File.user_id == user.id)
 
     if search:
         pattern = f"%{search.strip()}%"
@@ -155,6 +155,6 @@ def list_user_files(
     column = column.asc() if sort_order == "asc" else column.desc()
     stmt = stmt.order_by(column)
 
-    total = len(db.scalars(count_stmt).all())
+    total = db.scalar(count_stmt) or 0
     files = db.scalars(stmt.offset((page - 1) * page_size).limit(page_size)).all()
     return list(files), total

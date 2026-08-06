@@ -96,4 +96,11 @@ Progress tracker for the Secure File Storage System development.
 - 17 API tests: health, auth (register/login/dup-409/wrong-pass/me), profile (update, change-password + relogin), files (upload/encrypt-on-disk/blocked-ext/empty/list/search/rename/delete/download roundtrip/ownership-403), security (headers, rate-limit 429)
 - Coverage 92%; 33 tests passing (16 crypto + 17 API)
 
-## Next: Phase 15 — Performance
+## Phase 15 — Performance: COMPLETE
+- GZip middleware (>=1 KB) on API responses
+- Efficient SQL count (func.count) instead of loading all rows for pagination
+- Composite index (user_id, uploaded_at) via Alembic migration a8f9845cc844 — applied
+- Frontend route code-splitting (React.lazy + Suspense): main bundle 360 KB → 306 KB, per-page chunks
+- All 33 tests still passing after migration + count change
+
+## Next: Phase 16 — Deployment

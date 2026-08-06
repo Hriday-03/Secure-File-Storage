@@ -3,7 +3,7 @@
 import uuid
 from datetime import datetime
 
-from sqlalchemy import BigInteger, DateTime, ForeignKey, String, Text, func
+from sqlalchemy import BigInteger, DateTime, ForeignKey, Index, String, Text, func
 from sqlalchemy.orm import Mapped, mapped_column, relationship
 
 from app.database.database import Base
@@ -58,3 +58,7 @@ class File(Base):
     )
 
     owner: Mapped[User] = relationship(back_populates="files")
+
+    __table_args__ = (
+        Index("ix_files_user_uploaded_at", "user_id", "uploaded_at"),
+    )
