@@ -91,4 +91,9 @@ Progress tracker for the Secure File Storage System development.
 - 404 NotFoundPage within protected layout (unknown paths show styled 404, not silent redirect)
 - Existing backend envelopes already structured; catch-all handler never leaks internals
 
-## Next: Phase 14 — Testing
+## Phase 14 — Testing: COMPLETE
+- API test suite (conftest with isolated in-memory DB + temp storage + rate-limit reset)
+- 17 API tests: health, auth (register/login/dup-409/wrong-pass/me), profile (update, change-password + relogin), files (upload/encrypt-on-disk/blocked-ext/empty/list/search/rename/delete/download roundtrip/ownership-403), security (headers, rate-limit 429)
+- Coverage 92%; 33 tests passing (16 crypto + 17 API)
+
+## Next: Phase 15 — Performance
