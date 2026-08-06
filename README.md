@@ -132,19 +132,19 @@ secure-file-storage/
 ## 1. Clone Repository
 
 ```bash
-git clone https://github.com/yourusername/secure-file-storage.git
+git clone https://github.com/Hriday-03/Secure-File-Storage.git
 
-cd secure-file-storage
+cd Secure-File-Storage
 ```
 
 ---
 
 ## 2. Backend Setup
 
-Create a virtual environment
+Create a virtual environment at the repository root
 
 ```bash
-python -m venv .venv
+python -m venv venv
 ```
 
 Activate
@@ -152,36 +152,27 @@ Activate
 Windows
 
 ```bash
-.venv\Scripts\activate
+venv\Scripts\activate
 ```
 
 Linux / macOS
 
 ```bash
-source .venv/bin/activate
+source venv/bin/activate
 ```
 
-Install dependencies
+Install dependencies and configure the environment
 
 ```bash
+cd backend
 pip install -r requirements.txt
+copy .env.example .env        # Windows
+cp .env.example .env          # Linux / macOS
 ```
 
-Create a `.env` file
-
-```env
-DATABASE_URL=postgresql://user:password@localhost/secure_storage
-
-SECRET_KEY=your-secret-key
-
-ALGORITHM=HS256
-
-ACCESS_TOKEN_EXPIRE_MINUTES=30
-
-RSA_KEY_SIZE=2048
-
-STORAGE_PATH=storage/encrypted_files
-```
+> The default `.env` uses SQLite (`secure_storage.db`) and the local frontend origin
+> `http://localhost:5173`, so it works out of the box. For production, change
+> `DATABASE_URL` to PostgreSQL and set a strong `SECRET_KEY`.
 
 Run migrations
 
@@ -211,6 +202,8 @@ http://localhost:8000/docs
 
 ## 3. Frontend Setup
 
+Open a second terminal at the repository root and run:
+
 ```bash
 cd frontend
 
@@ -224,6 +217,17 @@ Frontend
 ```
 http://localhost:5173
 ```
+
+The dev server proxies `/api` requests to the backend at `http://127.0.0.1:8000` automatically.
+
+---
+
+## 4. First Login
+
+Register an account from the app (or use the dev test accounts seeded in a local database:
+`test@example.com` / `securepass123`). Files must have an allowed extension
+(`txt`, `pdf`, `png`, `jpg`, `zip`, …); executables (`exe`, `bat`, `sh`, `js`) are blocked.
+Upload limit is 100 MB.
 
 ---
 
