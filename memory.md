@@ -103,4 +103,10 @@ Progress tracker for the Secure File Storage System development.
 - Frontend route code-splitting (React.lazy + Suspense): main bundle 360 KB → 306 KB, per-page chunks
 - All 33 tests still passing after migration + count change
 
-## Next: Phase 16 — Deployment
+## Phase 16 — Deployment: COMPLETE
+- backend/Dockerfile (python:3.11-slim, alembic upgrade head at start)
+- frontend/Dockerfile (multi-stage: node build → nginx) + nginx.conf (SPA fallback, /api proxy, gzip, security headers, 100 MB uploads)
+- docker-compose.yml (backend + frontend on :8080, shared volume for DB/blobs/logs, healthchecks)
+- Note: Docker not installed on this machine — compose YAML validated only; containers untested
+
+## Next: Phase 17 — Documentation
