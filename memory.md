@@ -109,4 +109,8 @@ Progress tracker for the Secure File Storage System development.
 - docker-compose.yml (backend + frontend on :8080, shared volume for DB/blobs/logs, healthchecks)
 - Note: Docker not installed on this machine — compose YAML validated only; containers untested
 
-## Next: Phase 17 — Documentation
+## Phase 17 — Documentation: COMPLETE
+- API.md: full endpoint reference, error codes, request/response contracts, security details
+- README.md updated: accurate stack (no React Hook Form/Zod), correct change-password route, Docker section, real security/test facts
+
+## ✅ ALL PHASES COMPLETE (1–17)

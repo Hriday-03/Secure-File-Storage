@@ -75,8 +75,6 @@ PostgreSQL   Encrypted Storage
 - React Router
 - Axios
 - TanStack Query
-- React Hook Form
-- Zod
 
 ## Backend
 
@@ -229,6 +227,21 @@ http://localhost:5173
 
 ---
 
+# 🐳 Docker Deployment
+
+Build and run both services with Compose (frontend on `http://localhost:8080`, backend on port 8000 inside the network):
+
+```bash
+docker compose up --build
+```
+
+- Backend image runs `alembic upgrade head` before starting uvicorn.
+- Encrypted blobs, SQLite database, and logs persist in the `storage_data` volume.
+- Nginx serves the built frontend, proxies `/api` to the backend, and limits uploads to 100 MB.
+- Set `SECRET_KEY` (and a real `DATABASE_URL` if using PostgreSQL) in `backend/.env` before deploying.
+
+---
+
 # 🔒 Encryption Workflow
 
 ```
@@ -304,25 +317,36 @@ GET    /api/users/profile
 
 PUT    /api/users/profile
 
-PUT    /api/users/change-password
+POST   /api/users/change-password
 ```
+
+## Dashboard
+
+```
+GET    /api/dashboard/stats
+```
+
+---
+
+Full request/response contracts, error codes, and hardening details are in **[API.md](API.md)**.
 
 ---
 
 # 🔐 Security Features
 
-- AES-256-GCM Encryption
-- RSA-2048 / RSA-4096
-- JWT Authentication
-- Password Hashing
+- AES-256-GCM Encryption (chunked streaming, 1 MiB chunks)
+- RSA-2048 key pairs with OAEP-SHA-256
+- Private keys encrypted at rest (HKDF master key from SECRET_KEY)
+- bcrypt password hashing
+- JWT Authentication (30 min expiry)
 - File Ownership Verification
-- Secure Random Key Generation
+- Rate Limiting (auth 10/min, general 120/min)
+- Security Headers (CSP, X-Frame-Options, nosniff, etc.)
+- Filename Sanitization + path traversal protection
 - Input Validation
-- SQL Injection Protection
-- XSS Protection
-- CORS Configuration
-- HTTPS Ready
-- Secure HTTP Headers
+- SQL Injection Protection (ORM)
+- Error envelope that never leaks internals
+- CORS pinned to configured origins
 
 ---
 
@@ -331,26 +355,29 @@ PUT    /api/users/change-password
 Run backend tests
 
 ```bash
-pytest
+cd backend
+python -m pytest
 ```
 
 Run with coverage
 
 ```bash
-pytest --cov=app
+python -m pytest --cov=app
 ```
+
+Current suite: 33 tests (16 crypto unit tests + 17 API integration tests), ~92% coverage.
 
 ---
 
 # 📖 Documentation
 
-Project documentation is available in the `docs/` directory.
-
-- PRD.md
-- Architecture.md
-- Design.md
-- Rules.md
-- Phases.md
+- **[API.md](API.md)** — endpoint contracts, error codes, security details
+- **[prd.md](prd.md)** — product requirements
+- **[Architecture.md](Architecture.md)** — system architecture
+- **[design.md](design.md)** — design decisions
+- **[rules.md](rules.md)** — coding standards
+- **[phases.md](phases.md)** — development phases
+- **[memory.md](memory.md)** — build progress tracker
 
 ---
 
