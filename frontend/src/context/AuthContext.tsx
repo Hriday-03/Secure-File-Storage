@@ -11,6 +11,7 @@ interface AuthContextValue {
   login: (email: string, password: string) => Promise<void>
   register: (name: string, email: string, password: string) => Promise<void>
   logout: () => Promise<void>
+  updateUser: (user: User) => void
 }
 
 interface AuthState {
@@ -93,6 +94,11 @@ export function AuthProvider({ children }: { children: ReactNode }) {
     dispatch({ type: 'session', user: null })
   }, [])
 
+  const updateUser = useCallback((updated: User) => {
+    localStorage.setItem(USER_KEY, JSON.stringify(updated))
+    dispatch({ type: 'session', user: updated })
+  }, [])
+
   const value = useMemo(
     () => ({
       user: state.user,
@@ -101,8 +107,9 @@ export function AuthProvider({ children }: { children: ReactNode }) {
       login,
       register,
       logout,
+      updateUser,
     }),
-    [state, login, register, logout],
+    [state, login, register, logout, updateUser],
   )
 
   return <AuthContext.Provider value={value}>{children}</AuthContext.Provider>
