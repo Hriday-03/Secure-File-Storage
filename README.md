@@ -1,452 +1,228 @@
 <div align="center">
 
 # 🔐 Secure File Storage System
+### Encrypted file storage where only you hold the keys
 
-**Store your files encrypted. Only you hold the keys.**
+[![Python 3.11+](https://img.shields.io/badge/Python-3.11+-3776AB?style=for-the-badge&logo=python&logoColor=white)](https://www.python.org/)
+[![FastAPI](https://img.shields.io/badge/FastAPI-009688?style=for-the-badge&logo=fastapi&logoColor=white)](https://fastapi.tiangolo.com/)
+[![React 19](https://img.shields.io/badge/React_19-61DAFB?style=for-the-badge&logo=react&logoColor=black)](https://react.dev/)
+[![TypeScript](https://img.shields.io/badge/TypeScript-3178C6?style=for-the-badge&logo=typescript&logoColor=white)](https://www.typescriptlang.org/)
+[![License: MIT](https://img.shields.io/badge/License-MIT-green.svg?style=for-the-badge)](https://opensource.org/licenses/MIT)
 
-[![Python](https://img.shields.io/badge/Python-3.11-blue?logo=python&logoColor=white)](https://www.python.org/)
-[![FastAPI](https://img.shields.io/badge/FastAPI-0.115-009688?logo=fastapi&logoColor=white)](https://fastapi.tiangolo.com/)
-[![React](https://img.shields.io/badge/React-19-61DAFB?logo=react&logoColor=black)](https://react.dev/)
-[![TypeScript](https://img.shields.io/badge/TypeScript-5-3178C6?logo=typescript&logoColor=white)](https://www.typescriptlang.org/)
-[![AES-256-GCM](https://img.shields.io/badge/Encryption-AES--256--GCM-green)](https://en.wikipedia.org/wiki/Galois/Counter_Mode)
-[![Tests](https://img.shields.io/badge/Tests-33%20passing-brightgreen)](backend/tests)
-[![License](https://img.shields.io/badge/License-MIT-yellow)](LICENSE)
+<img src="https://readme-typing-svg.demolab.com?font=Fira+Code&weight=700&size=22&duration=3000&pause=1000&color=00D4FF&center=true&vCenter=true&width=700&lines=AES-256-GCM+File+Encryption;RSA-2048+Key+Management;Zero-Plaintext+Storage;JWT-Secured+REST+API" alt="Typing SVG" />
 
-A secure, modern, full-stack web application for storing encrypted files using industry-standard cryptography. Files are encrypted with **AES-256-GCM** before storage, while **RSA-2048** is used for secure key management. Only authenticated users can access and decrypt their own files.
+---
 
-[Getting Started](#-getting-started) · [API Reference](API.md) · [Screenshots](#-screenshots)
+**Secure File Storage** is a full-stack web app for storing files no one else can read — not even the server operator. Every file gets its own random AES-256-GCM key, the key is sealed to your RSA public key, and only ciphertext ever touches the disk.
+
+[Quick Start](#-quick-start) • [App Tour](#-app-tour) • [How It Works](#-how-it-works) • [Architecture](#-architecture) • [API Reference](API.md)
 
 </div>
 
 ---
 
-## 📸 Screenshots
+## ⚡ Quick Start
 
-### Dashboard
-![Dashboard](Images/dashboard.png)
+> [!NOTE]
+> The default config uses SQLite and the local frontend origin, so the app runs out of the box — no database server needed. (Linux/macOS: swap `copy` → `cp` and `venv\Scripts\activate` → `source venv/bin/activate`.)
 
-### Upload
-![Upload](Images/upload.png)
-
-### My Files
-![My Files](Images/files.png)
-
----
-
-## ✨ Features
-
-### Authentication
-- User Registration
-- User Login
-- JWT Authentication
-- Password Hashing (bcrypt/Argon2)
-- Protected Routes
-- Session Management
-
-### Secure File Storage
-- Secure File Upload
-- AES-256-GCM File Encryption
-- RSA Key Encryption
-- Secure File Download
-- Delete Files
-- Search Files
-- Pagination
-- File Metadata Management
-
-### Security
-- JWT Authentication
-- Password Hashing
-- File Ownership Verification
-- HTTPS Ready
-- SQL Injection Protection
-- XSS Protection
-- Input Validation
-- Secure File Handling
-
-### User Interface
-- Modern Dashboard
-- Drag & Drop Upload
-- Responsive Design
-- Dark / Light Theme
-- Toast Notifications
-- Upload Progress
-- Search & Filter
-- File Management
-
----
-
-# 🏗 Architecture
-
-```
-React (Frontend)
-        │
-        │ HTTPS + JWT
-        ▼
-FastAPI Backend
-        │
- ┌──────┴─────────┐
- │                │
- ▼                ▼
-PostgreSQL   Encrypted Storage
-               (Disk / S3)
-```
-
----
-
-# 🛠 Tech Stack
-
-## Frontend
-
-- React
-- TypeScript
-- Vite
-- Tailwind CSS
-- React Router
-- Axios
-- TanStack Query
-
-## Backend
-
-- Python 3.12+
-- FastAPI
-- SQLAlchemy
-- Alembic
-- Pydantic
-- Uvicorn
-
-## Database
-
-- PostgreSQL
-- SQLite (Development)
-
-## Cryptography
-
-- cryptography
-- bcrypt
-- python-jose
-
----
-
-# 📁 Project Structure
-
-```
-secure-file-storage/
-│
-├── backend/
-│   ├── app/              # FastAPI app (api, core, crypto, database, services)
-│   ├── migrations/       # Alembic migrations
-│   ├── tests/            # pytest suite (33 tests)
-│   ├── requirements.txt
-│   └── .env.example
-│
-├── frontend/
-│   ├── src/              # React + TypeScript + Tailwind
-│   ├── nginx.conf        # Production reverse proxy
-│   └── package.json
-│
-├── Images/               # App screenshots
-│
-├── docker-compose.yml
-├── API.md                # Full API reference
-├── README.md
-└── .gitignore
-```
-
----
-
-# 🚀 Getting Started
-
-## 1. Clone Repository
-
-```bash
+```powershell
+# 1. Clone and enter the project
 git clone https://github.com/Hriday-03/Secure-File-Storage.git
-
 cd Secure-File-Storage
-```
 
----
-
-## 2. Backend Setup
-
-Create a virtual environment at the repository root
-
-```bash
+# 2. Backend — terminal 1
 python -m venv venv
-```
-
-Activate
-
-Windows
-
-```bash
 venv\Scripts\activate
-```
-
-Linux / macOS
-
-```bash
-source venv/bin/activate
-```
-
-Install dependencies and configure the environment
-
-```bash
 cd backend
 pip install -r requirements.txt
-copy .env.example .env        # Windows
-cp .env.example .env          # Linux / macOS
-```
-
-> The default `.env` uses SQLite (`secure_storage.db`) and the local frontend origin
-> `http://localhost:5173`, so it works out of the box. For production, change
-> `DATABASE_URL` to PostgreSQL and set a strong `SECRET_KEY`.
-
-Run migrations
-
-```bash
+copy .env.example .env
 alembic upgrade head
-```
-
-Run backend
-
-```bash
 uvicorn app.main:app --reload
-```
+# → API at http://localhost:8000  (interactive docs at /docs)
 
-Backend URL
-
-```
-http://localhost:8000
-```
-
-Swagger Documentation
-
-```
-http://localhost:8000/docs
-```
-
----
-
-## 3. Frontend Setup
-
-Open a second terminal at the repository root and run:
-
-```bash
+# 3. Frontend — new terminal, from the repo root
 cd frontend
-
 npm install
-
 npm run dev
+# → App at http://localhost:5173
 ```
 
-Frontend
-
-```
-http://localhost:5173
-```
-
-The dev server proxies `/api` requests to the backend at `http://127.0.0.1:8000` automatically.
+> [!TIP]
+> Register a fresh account in the app, or sign in with the dev account `test@example.com` / `securepass123`.
 
 ---
 
-## 4. First Login
+## 🖱️ App Tour
 
-Register an account from the app (or use the dev test accounts seeded in a local database:
-`test@example.com` / `securepass123`). Files must have an allowed extension
-(`txt`, `pdf`, `png`, `jpg`, `zip`, …); executables (`exe`, `bat`, `sh`, `js`) are blocked.
-Upload limit is 100 MB.
+Follow a file through the app in four steps:
+
+### Step 1 — Create your account
+Register with a name, email, and password. The server generates your personal **RSA-2048 keypair**, encrypts the private key with a master key, and hands you a **JWT** valid for 30 minutes. No email verification, no friction.
+
+### Step 2 — Meet your dashboard
+![Dashboard](Images/dashboard.png)
+Total files, encrypted storage used, last upload, and the active cipher — one glance tells you the state of your vault.
+
+### Step 3 — Upload files
+![Upload](Images/upload.png)
+Drag & drop (or browse) with live per-file progress. Each upload gets a **fresh random AES-256 key**, is encrypted in 1 MiB chunks, and executables (`.exe`, `.bat`, `.sh`, `.js`, …) plus files over 100 MB are rejected before touching storage.
+
+### Step 4 — Manage and download
+![My Files](Images/files.png)
+Search by filename, sort by name/size/date, page through results, rename, delete — or download, which streams the file back decrypted byte-for-byte.
 
 ---
 
-# 🐳 Docker Deployment
+## 🔍 Key Capabilities
 
-Build and run both services with Compose (frontend on `http://localhost:8080`, backend on port 8000 inside the network):
+<div align="center">
 
-```bash
+| Feature | Description | Icon |
+| :--- | :--- | :---: |
+| **Per-File Encryption** | Fresh random AES-256-GCM key for every upload, chunked 1 MiB streaming. | 🔐 |
+| **RSA Key Management** | RSA-2048 OAEP-SHA-256 seals each file key; private keys encrypted at rest (HKDF). | 🔑 |
+| **JWT Authentication** | 30-minute tokens, bcrypt-hashed passwords (72-byte limit enforced). | 🎫 |
+| **Upload Guardrails** | Extension allowlist + executable blocklist, empty-file and 100 MB size checks. | 🛡️ |
+| **Search, Sort, Paginate** | Case-insensitive filename search with name/size/date sorting. | 🔍 |
+| **Streaming Downloads** | Decrypt-on-the-fly delivery — constant memory even for large files. | 📥 |
+| **Profile Management** | Update display name, change password with current-password verification. | 👤 |
+| **Rate Limiting** | 10/min on auth endpoints, 120/min elsewhere, with `Retry-After`. | 🚦 |
+| **Audit Logging** | Every request logged with method, path, status, duration, and user. | 📋 |
+| **Resilient UI** | Error boundary, 404 page, toasts, and code-split routes. | ✨ |
+
+</div>
+
+---
+
+## ⚙️ How It Works
+
+Each file passes through four cryptographic stages:
+
+<div align="center">
+
+| Stage | Operation | Detail |
+| :--- | :--- | :--- |
+| **1. Encrypt** | `AES-256-GCM` | Fresh 256-bit key per file; 1 MiB chunks framed as `[len ‖ nonce ‖ ct+tag]` |
+| **2. Wrap key** | `RSA-2048 OAEP-SHA-256` | File key sealed to the owner's public key (32 bytes — well under the 190 B limit) |
+| **3. Store** | `Ciphertext only` | `.enc` blob on disk + metadata in DB; stored names and sealed keys never exposed via API |
+| **4. Decrypt** | `Streamed` | Private key recovered → AES key unwrapped → bytes decrypted chunk-by-chunk on download |
+
+</div>
+
+---
+
+## 🏗️ Architecture
+
+```mermaid
+graph TD
+    U[React 19 + Tailwind<br/>localhost:5173] -->|JWT in Authorization header| A[FastAPI<br/>localhost:8000]
+
+    subgraph Backend
+    A --> AU[Auth: bcrypt + JWT 30min]
+    A --> CR[Crypto: AES-256-GCM + RSA-2048 OAEP]
+    A --> MW[Rate limit + audit log + security headers]
+    end
+
+    A --> DB[(SQLite dev / PostgreSQL prod)]
+    A --> ST[Encrypted .enc blobs on disk]
+
+    style U fill:#0ea5e9,stroke:#333,stroke-width:2px,color:#000
+    style A fill:#009688,stroke:#333,stroke-width:2px,color:#fff
+    style ST fill:#16a34a,stroke:#333,stroke-width:2px,color:#fff
+```
+
+---
+
+## 📊 File Lifecycle
+
+```
+1. REGISTER        → RSA-2048 keypair generated, private key HKDF-encrypted at rest
+2. LOGIN           → bcrypt verified, JWT issued (30 min)
+3. UPLOAD          → Sanitized + validated → fresh AES key → chunked GCM encrypt → RSA-wrapped key
+4. LIST            → Paginated search/sort over metadata (composite index on user + date)
+5. DOWNLOAD        → Ownership check → unwrap key → streamed decrypt, byte-identical return
+6. RENAME / DELETE → Metadata update, or blob + record removal
+```
+
+---
+
+## 🧰 Tech Stack
+
+- **Backend:** Python 3.11, FastAPI, SQLAlchemy 2, Alembic, Pydantic, Uvicorn
+- **Frontend:** React 19, TypeScript, Vite, Tailwind CSS v4, React Router, Axios, TanStack Query
+- **Database:** SQLite (dev) / PostgreSQL (prod)
+- **Cryptography:** `cryptography` (AES-GCM, RSA-OAEP), `bcrypt`, `python-jose` (JWT)
+- **Testing:** pytest — 33 tests (16 crypto + 17 API), 92% coverage
+- **Deploy:** Docker + Compose, nginx (SPA + `/api` reverse proxy)
+
+---
+
+## 📁 Repository Overview
+
+```ascii
+Secure-File-Storage/
+├── backend/
+│   ├── app/              # api · core · crypto · database · middleware · services
+│   ├── migrations/       # Alembic revisions (schema + RSA keys + file index)
+│   ├── tests/            # conftest + test_crypto + test_api
+│   ├── requirements.txt
+│   └── .env.example
+├── frontend/
+│   ├── src/              # pages · components · services · context
+│   ├── nginx.conf        # prod reverse proxy (/api → backend)
+│   └── package.json
+├── Images/               # screenshots used in this README
+├── docker-compose.yml    # backend + frontend + shared volume
+├── API.md                # full endpoint + error-code reference
+└── README.md             # this file
+```
+
+---
+
+## 🐳 Docker Deployment
+
+```powershell
+# Build and run both services (frontend → http://localhost:8080)
 docker compose up --build
 ```
 
-- Backend image runs `alembic upgrade head` before starting uvicorn.
-- Encrypted blobs, SQLite database, and logs persist in the `storage_data` volume.
-- Nginx serves the built frontend, proxies `/api` to the backend, and limits uploads to 100 MB.
-- Set `SECRET_KEY` (and a real `DATABASE_URL` if using PostgreSQL) in `backend/.env` before deploying.
+> [!WARNING]
+> - Set a strong `SECRET_KEY` in `backend/.env` before deploying — the default is a placeholder.
+> - Point `DATABASE_URL` at PostgreSQL for production; SQLite lives in the shared volume.
+> - If you serve the frontend from a non-localhost origin, add it to `CORS_ORIGINS`.
 
 ---
 
-# 🔒 Encryption Workflow
+## 🚨 Important Notes
 
-```
-User Upload
-      │
-      ▼
-Generate AES Key
-      │
-      ▼
-Encrypt File (AES-256-GCM)
-      │
-      ▼
-Encrypt AES Key (RSA)
-      │
-      ▼
-Store Encrypted File
-      │
-      ▼
-Save Metadata
-```
+> [!CAUTION]
+> - **Back up `SECRET_KEY`.** Private keys are encrypted with a master key derived from it — rotating or losing it makes every stored file permanently unreadable.
+> - **Never commit `backend/.env`** — it holds `SECRET_KEY` (already gitignored).
 
-Download
-
-```
-Retrieve File
-      │
-      ▼
-Decrypt AES Key
-      │
-      ▼
-Decrypt File
-      │
-      ▼
-Return Original File
-```
+> [!NOTE]
+> - Uploads are capped at 100 MB (`MAX_UPLOAD_SIZE_MB`); executables and scripts are blocked by extension.
+> - Auth endpoints are rate-limited to 10 requests/min per IP — hammering login in tests will return `429`.
 
 ---
 
-# 📚 API Endpoints
+## 🧪 Testing
 
-## Authentication
-
-```
-POST   /api/auth/register
-
-POST   /api/auth/login
-
-POST   /api/auth/logout
-
-GET    /api/auth/me
-```
-
-## Files
-
-```
-POST   /api/files/upload
-
-GET    /api/files
-
-GET    /api/files/{id}
-
-GET    /api/files/{id}/download
-
-DELETE /api/files/{id}
-
-PUT    /api/files/{id}/rename
-```
-
-## User
-
-```
-GET    /api/users/profile
-
-PUT    /api/users/profile
-
-POST   /api/users/change-password
-```
-
-## Dashboard
-
-```
-GET    /api/dashboard/stats
-```
-
----
-
-Full request/response contracts, error codes, and hardening details are in **[API.md](API.md)**.
-
----
-
-# 🔐 Security Features
-
-- AES-256-GCM Encryption (chunked streaming, 1 MiB chunks)
-- RSA-2048 key pairs with OAEP-SHA-256
-- Private keys encrypted at rest (HKDF master key from SECRET_KEY)
-- bcrypt password hashing
-- JWT Authentication (30 min expiry)
-- File Ownership Verification
-- Rate Limiting (auth 10/min, general 120/min)
-- Security Headers (CSP, X-Frame-Options, nosniff, etc.)
-- Filename Sanitization + path traversal protection
-- Input Validation
-- SQL Injection Protection (ORM)
-- Error envelope that never leaks internals
-- CORS pinned to configured origins
-
----
-
-# 🧪 Testing
-
-Run backend tests
-
-```bash
+```powershell
 cd backend
-python -m pytest
+python -m pytest            # 33 tests
+python -m pytest --cov=app  # coverage report (~92%)
 ```
 
-Run with coverage
-
-```bash
-python -m pytest --cov=app
-```
-
-Current suite: 33 tests (16 crypto unit tests + 17 API integration tests), ~92% coverage.
-
 ---
 
-# 📖 Documentation
+<div align="center">
 
-- **[API.md](API.md)** — endpoint contracts, error codes, security details
-- **[prd.md](prd.md)** — product requirements
-- **[Architecture.md](Architecture.md)** — system architecture
-- **[design.md](design.md)** — design decisions
-- **[rules.md](rules.md)** — coding standards
-- **[phases.md](phases.md)** — development phases
-- **[memory.md](memory.md)** — build progress tracker
+**Your files. Your keys. Nobody else's business.**
 
----
+*Built with FastAPI, React, and modern cryptography — all 17 build phases complete.*
 
-# 🚀 Future Features
+[![MIT License](https://img.shields.io/badge/License-MIT-green.svg?style=for-the-badge)](https://opensource.org/licenses/MIT)
+[![33 Tests Passing](https://img.shields.io/badge/Tests-33_passing-brightgreen?style=for-the-badge)](backend/tests)
 
-- Two-Factor Authentication (2FA)
-- Secure File Sharing
-- Folder Management
-- Version History
-- Audit Logs
-- Storage Analytics
-- AWS S3 Integration
-- Azure Blob Storage
-- Malware Scanning
-- File Expiration
-- Activity Timeline
-- Admin Dashboard
-
----
-
-# 🤝 Contributing
-
-1. Fork the repository.
-2. Create a feature branch.
-3. Follow the coding standards in `Rules.md`.
-4. Write tests for new functionality.
-5. Submit a pull request.
-
----
-
-# 📄 License
-
-This project is licensed under the MIT License.
-
----
-
-# 👨‍💻 Author
-
-Secure File Storage System
-
-Built with ❤️ using FastAPI, React, and modern cryptography.
+</div>
