@@ -1,6 +1,35 @@
+<div align="center">
+
 # 🔐 Secure File Storage System
 
-A secure, modern, full-stack web application for storing encrypted files using industry-standard cryptography. Files are encrypted with **AES-256-GCM** before storage, while **RSA-2048/4096** is used for secure key management. Only authenticated users can access and decrypt their own files.
+**Store your files encrypted. Only you hold the keys.**
+
+[![Python](https://img.shields.io/badge/Python-3.11-blue?logo=python&logoColor=white)](https://www.python.org/)
+[![FastAPI](https://img.shields.io/badge/FastAPI-0.115-009688?logo=fastapi&logoColor=white)](https://fastapi.tiangolo.com/)
+[![React](https://img.shields.io/badge/React-19-61DAFB?logo=react&logoColor=black)](https://react.dev/)
+[![TypeScript](https://img.shields.io/badge/TypeScript-5-3178C6?logo=typescript&logoColor=white)](https://www.typescriptlang.org/)
+[![AES-256-GCM](https://img.shields.io/badge/Encryption-AES--256--GCM-green)](https://en.wikipedia.org/wiki/Galois/Counter_Mode)
+[![Tests](https://img.shields.io/badge/Tests-33%20passing-brightgreen)](backend/tests)
+[![License](https://img.shields.io/badge/License-MIT-yellow)](LICENSE)
+
+A secure, modern, full-stack web application for storing encrypted files using industry-standard cryptography. Files are encrypted with **AES-256-GCM** before storage, while **RSA-2048** is used for secure key management. Only authenticated users can access and decrypt their own files.
+
+[Getting Started](#-getting-started) · [API Reference](API.md) · [Screenshots](#-screenshots)
+
+</div>
+
+---
+
+## 📸 Screenshots
+
+### Dashboard
+![Dashboard](Images/dashboard.png)
+
+### Upload
+![Upload](Images/upload.png)
+
+### My Files
+![My Files](Images/files.png)
 
 ---
 
@@ -104,23 +133,21 @@ PostgreSQL   Encrypted Storage
 secure-file-storage/
 │
 ├── backend/
-│   ├── app/
+│   ├── app/              # FastAPI app (api, core, crypto, database, services)
+│   ├── migrations/       # Alembic migrations
+│   ├── tests/            # pytest suite (33 tests)
 │   ├── requirements.txt
-│   └── .env
+│   └── .env.example
 │
 ├── frontend/
-│   ├── src/
-│   ├── public/
+│   ├── src/              # React + TypeScript + Tailwind
+│   ├── nginx.conf        # Production reverse proxy
 │   └── package.json
 │
-├── docs/
-│   ├── PRD.md
-│   ├── Architecture.md
-│   ├── Design.md
-│   ├── Rules.md
-│   └── Phases.md
+├── Images/               # App screenshots
 │
 ├── docker-compose.yml
+├── API.md                # Full API reference
 ├── README.md
 └── .gitignore
 ```
